@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
+const router = require("./routes/post.routes")
 
 mongoose
   .connect(process.env.DB_ADMIN, {
@@ -24,5 +25,7 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.use("/post" , router)
 
 module.exports = app;
