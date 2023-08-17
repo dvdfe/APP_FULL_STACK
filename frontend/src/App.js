@@ -1,19 +1,30 @@
-import React, { useState } from 'react';
-import Newpost from './components/NewPost';
-import Thread from './components/Thread';
+import React, { useState } from "react";
+import Newpost from "./components/NewPost";
+import Thread from "./components/Thread";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getUser } from "./feature/user.slice";
 
 const App = () => {
+  const [userId, setUserId] = useState("");
+  const dispatch = useDispatch();
 
-  const [userId, setUserId] = useState("")
+  useEffect(() => {
+    dispatch(getUser(userId));
+  }, [userId]);
 
   return (
     <div className="app-container">
       <div className="login">
         <h3>Bonjour</h3>
-        <input type="text" placeholder="Pseudo"onChange={e => setUserId(e.target.value)}/>
+        <input
+          type="text"
+          placeholder="Pseudo"
+          onChange={(e) => setUserId(e.target.value)}
+        />
       </div>
-      <Newpost userId={userId}/>
-      <Thread userId={userId}/>
+      <Newpost/>
+      <Thread/>
     </div>
   );
 };

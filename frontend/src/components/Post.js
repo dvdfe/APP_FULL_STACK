@@ -1,12 +1,14 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import DeletePost from "./DeletePost";
 import LikePost from "./LikePost";
 
-const Post = ({ post, userId }) => {
+const Post = ({ post }) => {
   const [isAuthor, setIsAuthor] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [newMessage, setNewMessage] = useState("")
+  const [newMessage, setNewMessage] = useState("");
+  const userId = useSelector((state) => state.user.userId);
 
   useEffect(() => {
     if (post.author === userId) {
@@ -17,12 +19,12 @@ const Post = ({ post, userId }) => {
   }, [post.author, userId]);
 
   const handleEdit = () => {
-      if (newMessage) {
-          axios.put("http://localhost:3000/post/" + post._id, {
-              message: newMessage,
-          })
-      }
-  }
+    if (newMessage) {
+      axios.put("http://localhost:3000/post/" + post._id, {
+        message: newMessage,
+      });
+    }
+  };
 
   const dateFormater = (date) => {
     return new Date(date).toLocaleDateString("fr-FR", {
@@ -43,11 +45,18 @@ const Post = ({ post, userId }) => {
       </div>
       {isEdit ? (
         <div className="edit-container">
-          <textarea defaultValue={post.message} onChange={(e) => setNewMessage(e.target.value)}></textarea>
-          <button onClick={() => {
+          <textarea
+            defaultValue={post.message}
+            onChange={(e) => setNewMessage(e.target.value)}
+          ></textarea>
+          <button
+            onClick={() => {
               setIsEdit(false);
-              handleEdit()
-          }}>Valider les modifications</button>
+              handleEdit();
+            }}
+          >
+            Valider les modifications
+          </button>
         </div>
       ) : (
         <p>{newMessage ? newMessage : post.message}</p>
@@ -64,7 +73,7 @@ const Post = ({ post, userId }) => {
             >
               &#10000;
             </span>
-            <DeletePost postId={post._id}/>
+            <DeletePost postId={post._id} />
           </div>
         )}
       </div>
