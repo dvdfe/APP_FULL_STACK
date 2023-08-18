@@ -11,14 +11,13 @@ const Newpost = () => {
   const data = {
     message,
     author: userId,
+    _id: Date.now(),
   };
 
   const handleForm = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/post/", data).then(() => {
-      dispatch(createPost(data))
-      dispatch(getPosts())
-    })
+    axios.post("http://localhost:3000/post/", data);
+    dispatch(getPosts());
     setMessage("");
   };
 
